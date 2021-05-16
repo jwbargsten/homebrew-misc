@@ -1,10 +1,10 @@
-# Jwbargsten Jwbmisc
+# jwbargsten/misc
 
 ## How do I install these formulae?
 
-`brew install jwbargsten/jwbmisc/<formula>`
+`brew install jwbargsten/misc/<formula>`
 
-Or `brew tap jwbargsten/jwbmisc` and then `brew install <formula>`.
+Or `brew tap jwbargsten/misc` and then `brew install <formula>`.
 
 ## Documentation
 
