@@ -6,12 +6,13 @@ class Defbro < Formula
   license "MIT"
 
   depends_on xcode: [">= 11.2", :build]
-  uses_from_macos "swift"
   depends_on macos: [
     :catalina,
     :big_sur,
     :ventura,
   ]
+
+  uses_from_macos "swift"
 
   def install
     system "swift", "build", "--disable-sandbox", "-c", "release"
