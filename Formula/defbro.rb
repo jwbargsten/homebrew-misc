@@ -9,16 +9,18 @@ class Defbro < Formula
   license "MIT"
 
   depends_on xcode: [">= 11.2", :build ]
+  uses_from_macos "swift"
   depends_on macos: [
     :catalina,
     :big_sur,
+    :ventura,
   ]
 
   def install
     # ENV.deparallelize  # if your formula fails when building in parallel
     # Remove unrecognized options if warned by configure
     # https://rubydoc.brew.sh/Formula.html#std_configure_args-instance_method
-    system "swift", "build", "--disable-sandbox", "--configuration", "release"
+    system "swift", "build", "--disable-sandbox", "-c", "release"
     bin.install ".build/release/defbro"
   end
 
