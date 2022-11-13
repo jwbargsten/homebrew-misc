@@ -22,5 +22,4 @@ class Defbro < Formula
   test do
     system "true"
   end
-
 end
