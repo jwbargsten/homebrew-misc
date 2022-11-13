@@ -20,6 +20,7 @@ class Defbro < Formula
   end
 
   test do
+    # no tests, yay!
     system "true"
   end
 end
