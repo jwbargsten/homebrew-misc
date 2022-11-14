@@ -21,7 +21,6 @@ class Defbro < Formula
 
   test do
     # no tests, yay!
-    # no tests, yay!
     system "true"
   end
 end
