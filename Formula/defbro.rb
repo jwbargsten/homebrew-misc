@@ -7,8 +7,9 @@ class Defbro < Formula
 
   bottle do
     root_url "https://ghcr.io/v2/jwbargsten/misc"
-    rebuild 1
-    sha256 cellar: :any_skip_relocation, big_sur: "d61c7ccbf2d3989d4be4102db16c3d6b244ef67f0973df82a250331d62c8c11c"
+    rebuild 2
+    sha256 cellar: :any_skip_relocation, arm64_ventura: "85661041ed653a8d6e09a898e8e175166eb9bf63b7e93930f321e8e9c3ae922a"
+    sha256 cellar: :any_skip_relocation, ventura:       "17ce293c7a6809a3efef2ff2837bf482aabae2d98d1dd2b4ea422feec2bec0da"
   end
 
   depends_on xcode: [">= 11.2", :build]
