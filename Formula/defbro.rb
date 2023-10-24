@@ -28,7 +28,6 @@ class Defbro < Formula
 
   test do
     # no tests, yay!
-    # because we do bug-free development
     system "true"
   end
 end
