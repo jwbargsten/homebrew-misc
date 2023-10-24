@@ -32,6 +32,9 @@ jobs:
       - run: brew test-bot --only-formulae --root-url=https://ghcr.io/v2/jwbargsten/homebrew-misc
         if: github.event_name == 'pull_request'
 
+      - run: make inject-m1-arm-bottles
+        if: always() && github.event_name == 'pull_request'
+
       - name: Upload bottles as artifact
         if: always() && github.event_name == 'pull_request'
         uses: actions/upload-artifact@main
