@@ -20,6 +20,7 @@ class GoMssqlLoad < Formula
   end
 
   test do
+    # just check if we can get the help text
     run_output = shell_output("#{bin}/go-mssql-load 2>&1")
     assert_match "Utility functions for loading data into mssql server", run_output
   end

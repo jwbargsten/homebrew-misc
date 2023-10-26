@@ -1,0 +1,4 @@
+[flake8]
+max-line-length=111
+exclude=src/dapple/_version.py
+ignore=E231,W503,E203,E265,D103,D100,D101,D102,D104,D105,D107,D401
