@@ -1,0 +1,90 @@
+diff --git a/WWW/Library/Implementation/HTAnchor.c b/WWW/Library/Implementation/HTAnchor.c
+index b5ca251..41dcb55 100644
+--- a/WWW/Library/Implementation/HTAnchor.c
++++ b/WWW/Library/Implementation/HTAnchor.c
+@@ -107,6 +107,7 @@ static HTChildAnchor *HTChildAnchor_new(HTParentAnchor0 *parent)
+ 	outofmem(__FILE__, "HTChildAnchor_new");
+ 
+     p->parent = parent;		/* parent reference */
++    p->isImage = FALSE;
+     return p;
+ }
+ 
+@@ -119,6 +120,7 @@ static HTChildAnchor *HText_pool_ChildAnchor_new(HTParentAnchor *parent)
+ 	outofmem(__FILE__, "HText_pool_ChildAnchor_new");
+ 
+     p->parent = parent->parent;	/* parent reference */
++    p->isImage = FALSE;
+     return p;
+ }
+ 
+diff --git a/WWW/Library/Implementation/HTAnchor.h b/WWW/Library/Implementation/HTAnchor.h
+index 3b1e6e6..d540c98 100644
+--- a/WWW/Library/Implementation/HTAnchor.h
++++ b/WWW/Library/Implementation/HTAnchor.h
+@@ -140,6 +140,7 @@ extern "C" {
+ 
+ 	HTList _add_children_notag;	/* - just a memory for list entry:) */
+ 	HTList _add_sources;	/* - just a memory for list entry:) */
++	BOOL isImage;
+     } HTChildAnchor;
+ 
+     /*
+diff --git a/src/HTML.c b/src/HTML.c
+index 5c57a07..5d73b67 100644
+--- a/src/HTML.c
++++ b/src/HTML.c
+@@ -2221,9 +2221,12 @@ static int HTML_start_element(HTStructured * me, int element_number,
+     case HTML_XMP:
+ 	/* FALLTHRU */
+     case HTML_PLAINTEXT:
++	if (!HText_PreviousLineEmpty(me->text, FALSE))
++	     HText_appendCharacter(me->text, '\r');
+ 	change_paragraph_style(me, styles[ElementNumber]);
+ 	UPDATE_STYLE;
+ 	CHECK_ID(HTML_GEN_ID);
++	HText_appendText(me->text, "```\n");
+ 	if (me->comment_end)
+ 	    HText_appendText(me->text, me->comment_end);
+ 	break;
+@@ -3287,6 +3290,7 @@ static int HTML_start_element(HTStructured * me, int element_number,
+ 						     href,	/* Address */
+ 						     (HTLinkType *) 0);		/* Type */
+ 	    FREE(href);
++	    me->CurrentA->isImage = TRUE;
+ 	    me->CurrentANum = HText_beginAnchor(me->text,
+ 						me->inUnderline,
+ 						me->CurrentA);
+@@ -6030,6 +6034,7 @@ static int HTML_end_element(HTStructured * me, int element_number,
+ 	/*
+ 	 * Set to know that we are no longer in a PRE block.
+ 	 */
++	HText_appendText(me->text, "```");
+ 	HText_appendCharacter(me->text, '\n');
+ 	me->inPRE = FALSE;
+ 	/* FALLTHRU */
+diff --git a/src/LYList.c b/src/LYList.c
+index 989b6a3..66eb526 100644
+--- a/src/LYList.c
++++ b/src/LYList.c
+@@ -285,7 +285,10 @@ static int print_refs(FILE *fp, int titles, int refs)
+ 		    value = HText_findAnchorNumber(helper);
+ 		    if (value <= result)
+ 			continue;
+-		    fprintf(fp, "%4d. ", value);
++		    if(child->isImage) {
++		        fprintf(fp, "!");
++		    }
++		    fprintf(fp, "[%d]: ", value);
+ 		}
+ 		if (((HTAnchor *) parent != dest) && title) {
+ 		    fprintf(fp, "in ");
+@@ -328,7 +331,7 @@ static void print_hidden_refs(FILE *fp, int refs, int hidden_links)
+ 	}
+ 
+ 	if (links_are_numbered())
+-	    fprintf(fp, "%4d. ", ((cnt + 1) + refs));
++	    fprintf(fp, "[%d]: ", ((cnt + 1) + refs));
+ 	fprintf(fp, "%s\n", address);
+ 	FREE(address);
+ #ifdef VMS
