@@ -20,6 +20,12 @@ class Tig < Formula
   depends_on "pcre2"
   depends_on "readline"
 
+  # See notes/tig-skip-entries.md
+  patch do
+    url "file:///Users/jwb/entwicklung/homebrew-misc/patches/tig-skip-entries.patch"
+    sha256 "a315041858de638f8085c24a4864229e095bffadb6c2251bdf351f768645a194"
+  end
+
   def install
     system "./autogen.sh" if build.head?
     system "./configure", "--prefix=#{prefix}", "--sysconfdir=#{etc}"
