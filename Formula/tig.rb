@@ -23,7 +23,7 @@ class Tig < Formula
   # See notes/tig-skip-entries.md
   patch do
     url "file:///Users/jwb/entwicklung/homebrew-misc/patches/tig-skip-entries.patch"
-    sha256 "a315041858de638f8085c24a4864229e095bffadb6c2251bdf351f768645a194"
+    sha256 "8e67c980416a2fe9975facff3cc5e9174a3eb43068ef7d985e0befe43bafda40"
   end
 
   def install
