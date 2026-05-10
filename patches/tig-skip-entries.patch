@@ -1,0 +1,31 @@
+diff --git a/src/status.c b/src/status.c
+index 52c726bc..24cb280b 100644
+--- a/src/status.c
++++ b/src/status.c
+@@ -652,8 +652,25 @@ status_update(struct view *view)
+ 		return false;
+ 	}
+ 
+-	if (!show_untracked_only && line->type != LINE_STAT_STAGED && !no_files_staged)
++	if (!show_untracked_only && line->type != LINE_STAT_STAGED && !no_files_staged) {
++		struct status *file = line->data;
++		bool already_in_staged = false;
++		int i;
++
++		for (i = 1; file && i < view->lines; i++) {
++			struct line *l = &view->line[i];
++			struct status *s = l->data;
++
++			if (l->type == LINE_STAT_STAGED && s &&
++			    !strcmp(s->new.name, file->new.name)) {
++				already_in_staged = true;
++				break;
++			}
++		}
++
++		if (!already_in_staged)
+ 			view->pos.lineno += 1;
++	}
+ 
+ 	return true;
+ }
