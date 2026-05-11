@@ -10,3 +10,10 @@ Or `brew tap jwbargsten/misc` and then `brew install <formula>`.
 
 `brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
 
+## Patches
+
+### tig
+
+```
+brew install --build-from-source jwbargsten/misc/tig --HEAD
+```
