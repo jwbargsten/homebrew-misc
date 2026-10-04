@@ -13,11 +13,7 @@ class Defbro < Formula
   end
 
   depends_on xcode: [">= 11.2", :build]
-  depends_on macos: [
-    :catalina,
-    :big_sur,
-    :ventura,
-  ]
+  depends_on :macos
 
   uses_from_macos "swift"
 
